@@ -58,7 +58,7 @@ io.on('connection', function (socket) {
       y: p1.y,
       time: new Date().getTime(),
     });
-}, 1000/4);
+}, 1000/2);
 
   
    

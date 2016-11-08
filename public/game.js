@@ -22,7 +22,7 @@ for(var x = 0; x < vendors.length && !window.requestAnimationFrame; ++x) {
     lastTime     =    (new Date()).getTime(),
     currentTime  =    0,
     delta = 0,
-    delay=100;
+    delay=1000;
     
 function gameLoop() {
     window.requestAnimationFrame(gameLoop);
@@ -50,9 +50,9 @@ if(player.serverX.length > 2 && currentTime-player.time[0] > delay){
   var x1 = player.serverX[0];
   //player.time.shift();
   var x2 = player.serverX[1];
-  var time = currentTime - player.time[0]-delay;
+  var time = currentTime - player.time[0]-delay-4000;
   console.log("\nx1 "+x1+" x2 "+x2 +" time " +time);
-  delay = (player.time[1]-player.time[0])*2;
+  delay = (player.time[1]-player.time[0])*1.5;
   p1.x =interpolate(x1, x2,time, p1.x, player.time[1]-player.time[0]);
   //console.log("shift");
 }
