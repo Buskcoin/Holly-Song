@@ -56,9 +56,9 @@ io.on('connection', function (socket) {
     socket.emit(1,{
       x: p1.x,
       y: p1.y,
-      time: new Date().getTime(),
+      //time: new Date().getTime(),
     });
-}, 1000/2);
+}, 1000/15);
 
   
    

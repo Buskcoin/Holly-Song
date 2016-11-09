@@ -1,6 +1,7 @@
 var serverCount = 0;
 var clientCount = 0;
 var currentCount;
+var timeOffset = 0;
 var player = {};
 
 var socket = io();
@@ -38,10 +39,15 @@ $(function() {
 
   socket.on(1,function(data){
     serverCount++;
-    console.log(data.x);
+    //console.log(data.x);
      player.serverX.push(data.x);
      player.serverY.push(data.y);
-    player.time.push(data.time);
+    player.time.push(new Date().getTime());
+    
+    //timeOffset = (new Date().getTime()-data.time);
+    //if(timeOffset < 0)
+     // timeOffset = 0;
+    //console.log("server time "+timeOffset);
   //  console.log("Server count "+serverCount + " time "+  data.time+ " y " +data.y);
   })
 });

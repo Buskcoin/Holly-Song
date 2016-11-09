@@ -22,7 +22,7 @@ for(var x = 0; x < vendors.length && !window.requestAnimationFrame; ++x) {
     lastTime     =    (new Date()).getTime(),
     currentTime  =    0,
     delta = 0,
-    delay=1000;
+    delay=500;
     
 function gameLoop() {
     window.requestAnimationFrame(gameLoop);
@@ -43,27 +43,27 @@ stage.addChild(graphics2);
 //p2.y = yBuffer[yBuffer.length-1];
 //elf.position.x = xBuffer[xBuffer.length-1];
 //elf.position.y = yBuffer[yBuffer.length-1];
-if(player.serverX.length > 2 && currentTime-player.time[0] > delay){
+if(player.serverX.length >2  && currentTime-player.time[0] >= delay){
   
   //player.serverX.shift();
   //player.serverY.shift();
   var x1 = player.serverX[0];
   //player.time.shift();
   var x2 = player.serverX[1];
-  var time = currentTime - player.time[0]-delay-4000;
-  console.log("\nx1 "+x1+" x2 "+x2 +" time " +time);
-  delay = (player.time[1]-player.time[0])*1.5;
+ // timeOffset *=1.1;
+  var time = currentTime - (player.time[0]+delay);
+
+ //console.log("Delta: ");
+  //console.log("equation: "+player.time[0]+delay);
+  //console.log("\nx1 "+x1+" x2 "+x2 +" time " +time);
+  //delay = (player.time[1]-player.time[0])*1.1;
   p1.x =interpolate(x1, x2,time, p1.x, player.time[1]-player.time[0]);
-  //console.log("shift");
+  //console.log("delay "+ delay);
 }
 else if(player.serverX.length == 1){
   p1.x= player.serverX[0];
   p1.y = player.serverY[0];
   console.log("reset");
-} else {
-  
-  
-  
 }
 p2.display(0xFF1639,graphics);
 p1.display(0xFFFFF, graphics2);
@@ -72,17 +72,23 @@ p1.display(0xFFFFF, graphics2);
 
 
 function interpolate(x1,x2,t, x, interval){
-  if(t>interval)
+  var result = 0;
+  if(t>interval )
     t=interval;
-	var result = x1 + (x2-x1)*(t/interval);
-	if(result == x || result ==x2){
+    if(interval !== 0){
+	  result = x1 + (x2-x1)*(t/interval);
+	
+    }
+    else{
+      result = x2;
+    }
+ // console.log("here are the results " + (result-x1));
+if(result == x || result ==x2){
 	  player.serverX.shift();
 	  var size = player.serverX.length;
 	  player.time.shift();
-	  console.log("shifting " + size);
-	  
-	}
-  console.log("here are the results " + (result-x1));
+	  //console.log("shifting " + size);
+}
   return result;
 }
 
@@ -97,7 +103,7 @@ class Player{
   constructor(x,y){
     this.x = x;
     this.y = y;
-    this.time = new Date().getTime();
+    this.time = [];
   }
   display(hex, g){
 g.clear();
@@ -136,7 +142,7 @@ renderer.autoResize = true;
 renderer.resize(window.innerWidth, window.innerHeight);
  stage.interactive = true;
 
-  var texture = PIXI.Texture.fromImage("/assets/noArmElf.png");
+  var texture = PIXI.Texture.fromImage("https://cdn.hyperdev.com/us-east-1%3Aae47a8ce-6c95-4059-b241-bc73df87ed89%2FnoArmElf.png");
 elf = new PIXI.Sprite(texture);
 elf.anchor.x = 0.5;
 elf.anchor.y = 0.5;
